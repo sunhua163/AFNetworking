@@ -56,7 +56,18 @@
 }
 
 - (instancetype)initWithBaseURL:(NSURL *)url {
-    return [self initWithBaseURL:url sessionConfiguration:nil];
+    
+#ifdef DEBUG
+    //do sth.
+    return [self initWithBaseURL:url];
+    
+#else
+    //do sth.
+    NSURLSessionConfiguration *config = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+    config.connectionProxyDictionary = @{};//   防止上线后被抓包
+    return [self initWithBaseURL:url sessionConfiguration:config];
+    
+    #endif
 }
 
 - (instancetype)initWithSessionConfiguration:(NSURLSessionConfiguration *)configuration {
